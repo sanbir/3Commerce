@@ -76,8 +76,9 @@ namespace Ploeh.Samples.Commerce.WebUnitTest
                     return repositoryStub.Object;
                 });
 
-            var expectedProducts = (from p in featuredProducts
-                                    select new Likeness<Product, ProductViewModel>(p).Without(d => d.SummaryText)).ToList();
+            var expectedProducts = new List<TResult>();
+            foreach (var result1 in (featuredProducts.Select(p => new Likeness<Product, ProductViewModel>(p).Without(d => d.SummaryText))))
+                expectedProducts.Add(result1);
 
             var sut =
                 fixture.CreateAnonymous<HomeController>();
@@ -108,13 +109,12 @@ namespace Ploeh.Samples.Commerce.WebUnitTest
                     return userStub.Object;
                 });
 
-            var expectedProducts = (from p in featuredProducts
-                                    select new Likeness<Product, ProductViewModel>(new Product() 
-                                    {
-                                        Name = p.Name, 
-                                        UnitPrice = p.UnitPrice * .95m
-                                    })
-                                    .Without(d => d.SummaryText)).ToList();
+            var expectedProducts = new List<TResult>();
+            foreach (var result1 in (featuredProducts.Select(p => new Likeness<Product, ProductViewModel>(new Product()
+            {
+                Name = p.Name, UnitPrice = p.UnitPrice*.95m
+            }).Without(d => d.SummaryText))))
+                expectedProducts.Add(result1);
 
             var sut = fixture.CreateAnonymous<HomeController>();
             // Exercise system

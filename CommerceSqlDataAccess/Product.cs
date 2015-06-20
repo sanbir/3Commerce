@@ -5,9 +5,7 @@ namespace Ploeh.Samples.Commerce.Data.Sql
     {
         public Domain.Product ToDomainProduct()
         {
-            Domain.Product p = new Domain.Product();
-            p.Name = this.Name;
-            p.UnitPrice = this.UnitPrice;
+            Domain.Product p = new Domain.Product {Name = this.Name, UnitPrice = this.UnitPrice};
             return p;
         }
     }
